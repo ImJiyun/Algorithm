@@ -1,14 +1,38 @@
 -- 코드를 입력하세요
-SELECT
-    t1.NAME,
-    t1.DATETIME
+# INS : 동물 보호소에 들어온 동물의 정보
+# OUTS : 동물 보호소에서 입양 보낸 동물의 정보
+# 아직 입양을 못 간 동물: INS 테이블에는 존재, OUTS 테이블에는 없음
+# 가장 오래 보호소에 있었던 동물 3마리를 구해야 하니 두 테이블에 있는 DATETIME 정보가 필요 
+
+# SELECT
+#     i.NAME,
+#     i.DATETIME 
+# FROM
+#     ANIMAL_INS AS i
+# LEFT JOIN
+#     ANIMAL_OUTS AS o
+#     ON i.ANIMAL_ID = o.ANIMAL_ID
+# WHERE 
+#     o.ANIMAL_ID IS NULL
+# ORDER BY
+#     DATEDIFF(i.DATETIME, o.DATETIME) DESC
+# LIMIT
+#     3
+
+
+SELECT 
+    i.NAME, 
+    i.DATETIME
 FROM 
-    ANIMAL_INS t1
-LEFT OUTER JOIN
-    ANIMAL_OUTS t2
-ON
-    t1.ANIMAL_ID = t2.ANIMAL_ID
-WHERE
-    t2.ANIMAL_ID IS NULL
-ORDER BY t1.DATETIME
-LIMIT 3
+    ANIMAL_INS i
+LEFT JOIN 
+    ANIMAL_OUTS o
+  ON i.ANIMAL_ID = o.ANIMAL_ID
+WHERE 
+    o.ANIMAL_ID IS NULL
+ORDER BY 
+    i.DATETIME ASC
+LIMIT 
+    3
+
+    
