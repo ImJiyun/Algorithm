@@ -1,14 +1,23 @@
 -- 코드를 입력하세요
-SELECT p1.CATEGORY, p2.MAX_PRICE, p1.PRODUCT_NAME
-FROM FOOD_PRODUCT p1
-    JOIN 
-    (SELECT CATEGORY, MAX(PRICE) as MAX_PRICE
-        FROM FOOD_PRODUCT
-        GROUP BY CATEGORY) AS p2
-WHERE 
-    p1.CATEGORY = p2.CATEGORY AND 
-    p1.PRICE = p2.MAX_PRICE AND 
-    p1.CATEGORY IN ('과자', '국', '김치', '식용유')   
-ORDER BY 
-    p1.PRICE DESC
-        
+WITH food_rank_table AS (
+    SELECT 
+        CATEGORY,
+        PRODUCT_NAME,
+        PRICE,
+        DENSE_RANK() OVER (PARTITION BY CATEGORY ORDER BY PRICE DESC) AS food_rank
+    FROM 
+        FOOD_PRODUCT
+)
+
+SELECT 
+    CATEGORY,
+    PRICE AS MAX_PRICE,
+    PRODUCT_NAME
+FROM
+    food_rank_table
+WHERE
+    food_rank = 1
+    AND
+    CATEGORY IN ('과자', '국', '김치', '식용유')
+ORDER BY
+    MAX_PRICE DESC
