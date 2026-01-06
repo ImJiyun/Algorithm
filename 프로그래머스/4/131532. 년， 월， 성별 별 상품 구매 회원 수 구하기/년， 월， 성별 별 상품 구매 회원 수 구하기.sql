@@ -13,10 +13,10 @@ ON
 WHERE
     ui.GENDER IS NOT NULL
 GROUP BY
-    YEAR(os.SALES_DATE),
-    MONTH(os.SALES_DATE),
-    ui.GENDER
+    YEAR,
+    MONTH,
+    GENDER
 ORDER BY
-    YEAR(os.SALES_DATE),
-    MONTH(os.SALES_DATE),
-    ui.GENDER
+    YEAR,
+    MONTH,
+    GENDER
