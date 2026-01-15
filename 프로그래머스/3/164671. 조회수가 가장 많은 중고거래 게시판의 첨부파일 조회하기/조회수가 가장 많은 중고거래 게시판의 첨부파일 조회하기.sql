@@ -9,9 +9,12 @@ ON
     t1.BOARD_ID = t2.BOARD_ID
 WHERE 
     t1.BOARD_ID = (
-        SELECT BOARD_ID
-        FROM USED_GOODS_BOARD
-        ORDER BY VIEWS DESC
+        SELECT 
+            BOARD_ID
+        FROM 
+            USED_GOODS_BOARD
+        ORDER BY 
+            VIEWS DESC
         LIMIT 1
     )
 ORDER BY 
