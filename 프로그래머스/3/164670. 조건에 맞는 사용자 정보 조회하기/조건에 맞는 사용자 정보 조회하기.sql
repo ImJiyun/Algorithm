@@ -1,18 +1,50 @@
 -- 코드를 입력하세요
+# SELECT
+#     WRITER_ID,
+#     NICKNAME,
+#     CONCAT(CITY, " ", STREET_ADDRESS1, " ", STREET_ADDRESS2) AS "전체주소",
+#     CONCAT(SUBSTRING(TLNO, 1, 3), "-", SUBSTRING(TLNO, 4, 4), "-", SUBSTRING(TLNO, 8, 4)) AS "전화번호"
+# FROM
+#     USED_GOODS_BOARD t1
+# JOIN 
+#     USED_GOODS_USER t2
+# ON 
+#     t1.WRITER_ID = t2.USER_ID
+# GROUP BY
+#     t1.WRITER_ID
+# HAVING
+#     COUNT(t1.WRITER_ID) >= 3
+# ORDER BY 
+#     USER_ID DESC
+
+WITH order_more_than_3 AS (
+    SELECT
+        WRITER_ID
+    FROM
+        USED_GOODS_BOARD 
+    GROUP BY
+        WRITER_ID
+    HAVING
+        COUNT(WRITER_ID) >= 3
+)
+
 SELECT
-    WRITER_ID,
+    USER_ID,
     NICKNAME,
-    CONCAT(CITY, " ", STREET_ADDRESS1, " ", STREET_ADDRESS2) AS "전체주소",
-    CONCAT(SUBSTRING(TLNO, 1, 3), "-", SUBSTRING(TLNO, 4, 4), "-", SUBSTRING(TLNO, 8, 4)) AS "전화번호"
+    CONCAT(CITY, ' ', STREET_ADDRESS1, ' ', STREET_ADDRESS2) AS '전체주소',
+    CONCAT(
+        SUBSTRING(TLNO, 1, 3), '-',
+        SUBSTRING(TLNO, 4, 4), '-',
+        SUBSTRING(TLNO, 8, 4)
+    ) AS '전화번호'
 FROM
-    USED_GOODS_BOARD t1
-JOIN 
-    USED_GOODS_USER t2
-ON 
-    t1.WRITER_ID = t2.USER_ID
-GROUP BY
-    t1.WRITER_ID
-HAVING
-    COUNT(t1.WRITER_ID) >= 3
-ORDER BY 
+    USED_GOODS_USER 
+WHERE
+    USER_ID IN (
+        SELECT
+            WRITER_ID
+        FROM
+            order_more_than_3
+)
+ORDER BY
     USER_ID DESC
