@@ -1,13 +1,27 @@
 -- 코드를 입력하세요
+# SELECT
+#     i.ANIMAL_ID, 
+#     i.NAME
+# FROM 
+#     ANIMAL_INS i
+# JOIN 
+#     ANIMAL_OUTS o
+# ON 
+#     i.ANIMAL_ID = o.ANIMAL_ID
+# ORDER BY 
+#     (o.DATETIME - i.DATETIME) DESC
+# LIMIT 2
+
 SELECT
-    i.ANIMAL_ID, 
-    i.NAME
+    ao.ANIMAL_ID,
+    ao.NAME
 FROM 
-    ANIMAL_INS i
-JOIN 
-    ANIMAL_OUTS o
-ON 
-    i.ANIMAL_ID = o.ANIMAL_ID
-ORDER BY 
-    (o.DATETIME - i.DATETIME) DESC
-LIMIT 2
+    ANIMAL_OUTS AS ao
+LEFT JOIN
+    ANIMAL_INS AS ai
+ON
+    ao.ANIMAL_ID = ai.ANIMAL_ID
+ORDER BY
+    DATEDIFF(ao.DATETIME, ai.DATETIME) DESC
+LIMIT
+    2
