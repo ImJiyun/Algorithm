@@ -1,13 +1,22 @@
 -- 코드를 입력하세요
+# SELECT
+#     CART_ID
+# FROM 
+#     CART_PRODUCTS
+# WHERE
+#     NAME IN ('Milk', 'Yogurt')
+# GROUP BY 
+#     CART_ID
+# HAVING 
+#     COUNT(DISTINCT NAME) = 2
+# ORDER BY
+#     CART_ID
+
 SELECT
-    CART_ID
-FROM 
-    CART_PRODUCTS
-WHERE
-    NAME IN ('Milk', 'Yogurt')
-GROUP BY 
-    CART_ID
-HAVING 
-    COUNT(DISTINCT NAME) = 2
-ORDER BY
-    CART_ID
+    a.CART_ID
+    # *
+FROM CART_PRODUCTS AS a
+LEFT JOIN CART_PRODUCTS AS b
+ON a.CART_ID = b.CART_ID
+WHERE a.NAME = 'Milk' AND b.NAME = 'Yogurt'
+ORDER BY CART_ID;
