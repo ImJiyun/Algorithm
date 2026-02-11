@@ -11,11 +11,18 @@
 
 def solution(rsp):
     answer = ''
-    for choice in rsp:
-        if choice == "2":
-            answer += "0"
-        elif choice == "0":
-            answer += "5"
-        else:
-            answer += "2"
-    return answer
+    d = {
+        "2" : "0",
+        "0" : "5",
+        "5" : "2"
+    }
+    # for choice in rsp:
+    #     if choice == "2":
+    #         answer += "0"
+    #     elif choice == "0":
+    #         answer += "5"
+    #     else:
+    #         answer += "2"
+    
+    
+    return ''.join(d[choice] for choice in rsp)
