@@ -1,22 +1,58 @@
 -- 코드를 입력하세요
-SELECT *
-FROM (
-    SELECT 
-        DATE_FORMAT(SALES_DATE, '%Y-%m-%d') AS SALES_DATE, 
-        PRODUCT_ID, 
-        USER_ID, 
-        SALES_AMOUNT
-    FROM ONLINE_SALE 
-    WHERE YEAR(SALES_DATE) = 2022 AND MONTH(SALES_DATE) = 3
+# SELECT *
+# FROM (
+#     SELECT 
+#         DATE_FORMAT(SALES_DATE, '%Y-%m-%d') AS SALES_DATE, 
+#         PRODUCT_ID, 
+#         USER_ID, 
+#         SALES_AMOUNT
+#     FROM ONLINE_SALE 
+#     WHERE YEAR(SALES_DATE) = 2022 AND MONTH(SALES_DATE) = 3
 
-    UNION ALL
+#     UNION ALL
 
-    SELECT 
-        DATE_FORMAT(SALES_DATE, '%Y-%m-%d') AS SALES_DATE, 
-        PRODUCT_ID, 
-        NULL AS USER_ID, 
+#     SELECT 
+#         DATE_FORMAT(SALES_DATE, '%Y-%m-%d') AS SALES_DATE, 
+#         PRODUCT_ID, 
+#         NULL AS USER_ID, 
+#         SALES_AMOUNT
+#     FROM OFFLINE_SALE
+#     WHERE YEAR(SALES_DATE) = 2022 AND MONTH(SALES_DATE) = 3
+# ) AS combined
+# ORDER BY SALES_DATE, PRODUCT_ID, USER_ID;
+
+WITH online_2022_03 AS (
+    SELECT
+        DATE_FORMAT(SALES_DATE, '%Y-%m-%d') AS SALES_DATE,
+        PRODUCT_ID,
+        USER_ID,
         SALES_AMOUNT
-    FROM OFFLINE_SALE
-    WHERE YEAR(SALES_DATE) = 2022 AND MONTH(SALES_DATE) = 3
-) AS combined
-ORDER BY SALES_DATE, PRODUCT_ID, USER_ID;
+    FROM
+        ONLINE_SALE 
+    WHERE
+        DATE_FORMAT(SALES_DATE, '%Y-%m') = '2022-03'
+), offline_2022_03 AS (
+    SELECT
+        DATE_FORMAT(SALES_DATE, '%Y-%m-%d') AS SALES_DATE,
+        PRODUCT_ID,
+        NULL AS USER_ID,
+        SALES_AMOUNT
+    FROM
+        OFFLINE_SALE  
+    WHERE
+        DATE_FORMAT(SALES_DATE, '%Y-%m') = '2022-03'
+)
+
+SELECT
+    *
+FROM
+    online_2022_03
+UNION ALL 
+SELECT 
+    *
+FROM 
+    offline_2022_03
+ORDER BY
+    SALES_DATE,
+    PRODUCT_ID,
+    USER_ID
