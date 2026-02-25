@@ -1,5 +1,4 @@
-# 파이썬은 문자열 수정 불가 
 def solution(my_string, num1, num2):
-    my_list = list(my_string)
-    my_list[num1], my_list[num2] = my_list[num2], my_list[num1]
-    return ''.join(my_list)
+    a, b = my_string.index(num1), my_string.index(num2)
+    my_string[num1], my_string = a, b
+    return a, b
